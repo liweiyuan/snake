@@ -32,6 +32,8 @@ public class PluginLoader {
      * @return
      */
     public static List<AbstractPlugin> loadPlugins() {
+        logger.info("初始化 plugin加载");
+
         List<AbstractPlugin> plugins = new ArrayList<>(16);
         List<PluginDefine> pluginDefines = new ArrayList<>(16);
 
