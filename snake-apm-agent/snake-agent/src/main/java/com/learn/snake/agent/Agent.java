@@ -2,12 +2,15 @@ package com.learn.snake.agent;
 
 import com.learn.snake.common.AgentJarUtils;
 import com.learn.snake.common.IdHelper;
+import com.learn.snake.plugin.AbstractPlugin;
+import com.learn.snake.plugin.PluginLoader;
 import com.learn.snake.transmit.TransmitterFactory;
 import net.bytebuddy.agent.builder.AgentBuilder;
 import net.bytebuddy.description.type.TypeDescription;
 import net.bytebuddy.matcher.ElementMatchers;
 
 import java.lang.instrument.Instrumentation;
+import java.util.List;
 
 /**
  * @Author :lwy
@@ -28,6 +31,7 @@ public class Agent {
         TransmitterFactory.init();
 
         //4.扫描需要适配的plugin
+        List<AbstractPlugin> plugins=PluginLoader.loadPlugins();
 
         //5.初始化Agent
         AgentBuilder agentBuilder = new AgentBuilder.Default().ignore(ElementMatchers.<TypeDescription>nameStartsWith("com.learn.snake"));

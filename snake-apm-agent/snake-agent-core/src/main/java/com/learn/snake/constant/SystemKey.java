@@ -28,4 +28,8 @@ public class SystemKey {
     public static String TRANSMIT_DEF = "snake-transmit.def";
 
 
+    //-------------------------------------------------------//
+    //plugins
+    public static String[] PLUGINS = new String[]{"plugins", "ext-lib"};
+    public static String PLUGIN_DEF = "snake-plugin.def";
 }
