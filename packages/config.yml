@@ -1,0 +1,97 @@
+logger:
+    console: true  #日志输出到控制台，默认false
+    level: trace   #日志输出级别，默认error
+    fileSize: 10485760 #日志文件大小，单位字节,默认10M
+    fileNum: 3     #日志文件保留数量，默认5个文件
+transmitter:
+    queueSize: 200 #缓冲队列大小，默认1000
+    threadNum: 2   #从队列读取数据并发送的线程数，默认cpu核数availableProcessors
+    idleSleep: 100 #队列为空时候，线程休眠时间，默认100ms
+    batchSize: 20  #每次从队列中批量获取数据数量，默认100
+    name: okhttp  #使用哪种transmitter
+    okhttp:        #name对应的transmitter的配置参数
+        connectTimeout: 30
+        writeTimeout: 10
+        readTimeout: 10
+        url:
+            - http://127.0.0.1:7000/stream
+            - http://127.0.0.1:7000/stream
+collect:
+    ratio: 10000 #采样率，万分几，默认全采集
+id:
+    zk:
+        url: 127.0.0.1:2181
+        timeout: 5000
+        retryTimes: 3
+        retrySleep: 5000
+    start: 5000
+plugins:
+    process:
+        enable: true  #采集开关
+        spend: -1 #耗时阀值
+        enableParam: true  #参数采集开关
+        excludeParamTypes: #排除的参数类型，参数不被系列化
+            - javax.servlet.http.HttpServletRequest
+        excludeParamTypePrefix: #排除的参数类型，参数不被系列化
+            - org.apache.velocity.
+            - javax.
+            - org.w3c
+            - org.springframework
+            - org.apache
+            - org.jdom
+            - com.fasterxml
+            - org.mybatis
+            - com.fasterxml
+            - net.sf.json
+            - org.codehaus
+            - java.lang.reflect
+            - java.lang.Object
+            - java.io
+            - java.nio
+            - sun.nio
+            - org.aspectj
+        error:
+            enable: true
+            #白名单配置，不在白名单的不采集，该前缀是在interceptPoint的前提下，多个前缀用英文逗号分开，支持到方法级别(fullClassName.methodName)
+            includeErrorPointPrefix:
+            #黑名单配置，优先级别最高，该前缀是在interceptPoint的前提下，多个前缀用英文逗号分开，支持到方法级别(fullClassName.methodName)
+            excludeErrorPointPrefix:
+        interceptPoints:
+            -
+                typeMatch:
+                    include: #named,nameStartsWith,nameEndsWith,nameContains,nameMatches,hasSuperType,hasAnnotation
+                        nameStartsWith: net.beeapm.demo
+                    exclude: #named,nameStartsWith,nameEndsWith,nameContains,nameMatches,hasSuperType,hasAnnotation
+                        nameStartsWith:
+                methodMatch: #named,nameStartsWith,nameEndsWith,nameContains,nameMatches,isAnnotatedWith
+                    include:
+                        named:
+                    exclude: #named,nameStartsWith,nameEndsWith,nameContains,nameMatches,isAnnotatedWith
+                        named:
+
+    jdbc:
+        enable: true       #开关，是否采集
+        spend: -1           #耗时阀值
+        enableParam: true  #参数采集开关
+    logger:
+        enable: true    #开关，是否采集,默认true
+        errorRatio: false #开关，error及以上级别是否使用采样率,默认false
+        defLevel: debug #默认级别，默认值为debug
+        points:
+        #日志采集点配置，规则为包名和日志级别，如a.b.c|debug，日志级别可不配置，为默认defLevel级别
+            - com.asiaifo|error
+            - com.asiainfo.crm|debug
+            - net.beeapm.demo|info
+    servlet:
+        enable: true       #开关，是否采集
+        enableReqParam: true #参数采集开关，是否采集
+        enableReqBody: true  #RequestBody采集开关，是否采集
+        enableReqHeaders: true  #Request headers采集开关，是否采集
+        enableRespBody: true # response采集开关，是否采集
+        spend: 1           #耗时阀值，小于等于process.spend
+    springTx:
+        enable: true       #开关，是否采集
+        spend: 0           #耗时阀值
+
+
+
