@@ -32,4 +32,12 @@ public class SystemKey {
     //plugins
     public static String[] PLUGINS = new String[]{"plugins", "ext-lib"};
     public static String PLUGIN_DEF = "snake-plugin.def";
+    public static String PLUGIN_FOLDER = "plugins";
+
+    //plugins interceptorsPoint
+    public static String PLUGIN_INTERCEPTOR_POINTS = "plugins.process.interceptPoints";
+    public static String PLUGIN_TYPE_MATCH = "typeMatch";
+    public static String PLUGIN_METHOD_MATCH = "methodMatch";
+
+
 }

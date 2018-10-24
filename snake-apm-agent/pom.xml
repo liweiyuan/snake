@@ -15,6 +15,7 @@
         <module>snake-agent</module>
         <module>snake-agent-core</module>
         <module>snake-agent-transmitter</module>
+        <module>snake-agent-plugin</module>
     </modules>
 
 

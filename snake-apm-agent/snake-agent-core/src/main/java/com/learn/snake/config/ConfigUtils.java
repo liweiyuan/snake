@@ -123,6 +123,15 @@ public class ConfigUtils {
 
     public List<String> getList(String key) {
 
-        return (List<String>) JSONPath.eval(jsonConfig,"$."+key);
+        return (List<String>) JSONPath.eval(jsonConfig, SystemKey.YML_PATH_PREFIX + key);
+    }
+
+    /**
+     * 获取 plugin拦截的类型
+     *
+     * @param key
+     */
+    public Object getVal(String key) {
+        return JSONPath.eval(jsonConfig, SystemKey.YML_PATH_PREFIX + key);
     }
 }
