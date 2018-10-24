@@ -3,7 +3,6 @@ package com.learn.snake.plugin;
 import com.learn.snake.common.classloader.AgentClassLoader;
 import com.learn.snake.constant.SystemKey;
 import com.learn.snake.plugin.model.PluginDefine;
-import com.learn.snake.transmit.model.TransmitterDefine;
 import com.learn.snake.util.LoggerBuilder;
 import com.learn.snake.util.SnakeUtils;
 import org.slf4j.Logger;
