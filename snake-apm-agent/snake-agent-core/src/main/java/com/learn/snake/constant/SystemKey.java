@@ -34,6 +34,23 @@ public class SystemKey {
     public static String PLUGIN_DEF = "snake-plugin.def";
     public static String PLUGIN_FOLDER = "plugins";
 
+    //-------------------------------------------------------//
+    //采集指标子信息
+    //1.开关
+    public static String PROCESS_ENABLE = "plugins.process.enable";
+    //2.参数采集开关
+    public static String PROCESS_ENABLE_PARAM = "plugins.process.enableParam";
+    //3.排除的参数类型
+    public static String PROCESS_PARAMS_TYPE = "plugins.process.excludeParamTypes";
+    //4.排除的参数前缀类型
+    public static String PROCESS_PARAMS_TYPE_PREFIX="plugins.process.excludeParamTypePrefix";
+    //5.错误开关
+    public static String PROCESS_ERROR_ENABLE = "plugins.process.error.enable";
+    public static String PROCESS_ERROR_INCLUDE ="plugins.process.error.includeErrorPointPrefix";
+    public static String PROCESS_ERROR_EXCLUDE ="plugins.process.error.excludeErrorPointPrefix";
+    //6.花费时间
+    public static String PROCESS_SPEND="plugins.process.spend";
+
     //plugins interceptorsPoint
     public static String PLUGIN_INTERCEPTOR_POINTS = "plugins.process.interceptPoints";
     public static String PLUGIN_TYPE_MATCH = "typeMatch";

@@ -1,6 +1,7 @@
 package com.learn.snake.plugin.handler;
 
 import com.learn.snake.model.Span;
+import com.learn.snake.plugin.ProcessConfig;
 
 /**
  * @Author :lwy
@@ -15,6 +16,11 @@ public class ProcessHandler extends AbstractHandler {
 
     @Override
     public Span before(String className, String methodName, Object[] allArguments, Object[] extVal) {
+
+        if(!ProcessConfig.init().isEnable()){
+            return null;
+        }
+
         return null;
     }
 
