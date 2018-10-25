@@ -37,64 +37,77 @@ public class Span {
         return tags;
     }
 
-    public void setTags(Tags tags) {
-        this.tags = tags;
+    public Span addTag(String key,Object val) {
+        this.tags.put(key,val);
+        return this;
+    }
+
+    public Span removeTag(String key){
+        this.tags.remove(key);
+        return this;
     }
 
     public String getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public Span setType(String type) {
         this.type = type;
+        return this;
     }
 
     public Date getTime() {
         return time;
     }
 
-    public void setTime(Date time) {
+    public Span setTime(Date time) {
         this.time = time;
+        return this;
     }
 
     public String getServer() {
         return server;
     }
 
-    public void setServer(String server) {
+    public Span setServer(String server) {
         this.server = server;
+        return this;
     }
 
     public String getCluster() {
         return cluster;
     }
 
-    public void setCluster(String cluster) {
+    public Span setCluster(String cluster) {
         this.cluster = cluster;
+        return this;
     }
 
     public String getPid() {
         return pid;
     }
 
-    public void setPid(String pid) {
+    public Span setPid(String pid) {
         this.pid = pid;
+        return this;
     }
 
     public String getGid() {
         return gid;
     }
 
-    public void setGid(String gid) {
+    public Span setGid(String gid) {
         this.gid = gid;
+        return this;
     }
 
     public String getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public Span setId(String id) {
         this.id = id;
+        return this;
     }
 
     public Long getSpend() {

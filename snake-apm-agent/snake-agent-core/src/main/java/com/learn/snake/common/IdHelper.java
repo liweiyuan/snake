@@ -16,7 +16,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * @Author :lwy
@@ -38,13 +38,18 @@ public class IdHelper {
 
     private static SimpleDateFormat sdf = new SimpleDateFormat(datePattern);
 
-    //初始化时间戳
-    private static String timeFlag = sdf.format(new Date());
+    //初始化时间戳标签--zookeeper
+    private static String timeTag = sdf.format(new Date());
 
-    private static String initTimeFlag = null;
+    //初始化时间戳标签
+    private static String initTimeTag = timeTag;
 
     //是否初始化状态值
     private static boolean timeInitFlag = false;
+
+
+    //id初始化值
+    public static AtomicLong id = new AtomicLong(1);
 
 
     /**
@@ -103,8 +108,8 @@ public class IdHelper {
      */
     private static void initTimeTag() {
         Calendar calendar = Calendar.getInstance();
-        timeFlag = sdf.format(calendar.getTime());
-        initTimeFlag = timeFlag;
+        timeTag = sdf.format(calendar.getTime());
+        initTimeTag = timeTag;
         calendar.set(Calendar.SECOND, calendar.get(Calendar.SECOND) + 1);
         calendar.set(Calendar.MILLISECOND, 0);
 
@@ -116,7 +121,7 @@ public class IdHelper {
             timer.scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {
-                    timeFlag = sdf.format(new Date());
+                    timeTag = sdf.format(new Date());
                 }
             }, delay, 1000);
         }
@@ -166,6 +171,8 @@ public class IdHelper {
         return sb.toString();
     }
 
+
+
     private static class SnakeConnectionStateListener implements org.apache.curator.framework.state.ConnectionStateListener {
         @Override
         public void stateChanged(CuratorFramework client, ConnectionState newState) {
@@ -185,4 +192,29 @@ public class IdHelper {
             }
         }
     }
+
+
+    /**
+     * 获取生成的id
+     * @return
+     */
+    public static String getId() {
+
+        if(!timeInitFlag){
+            init();
+        }
+        if(nodeName==null){
+            return null;
+        }
+        if(!initTimeTag.equals(timeTag)){
+            synchronized(IdHelper.class){
+                if(!initTimeTag.equals(timeTag)) {
+                    initTimeTag = timeTag;
+                    id.set(1);
+                }
+            }
+        }
+        return nodeName+ initTimeTag +id.getAndIncrement();
+    }
+
 }

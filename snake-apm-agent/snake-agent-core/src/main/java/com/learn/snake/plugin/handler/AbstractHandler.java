@@ -10,10 +10,10 @@ import org.slf4j.Logger;
  */
 public abstract class AbstractHandler implements IHandler {
 
-    public void logBeginTrace(String className,String methodName, Span span, Logger log){
+    void logBeginTrace(String className, String methodName, Span span, Logger log){
         log.trace("[begin]{}.{} tc={}", className, methodName, span.getType());
     }
-    public void logEndTrace(String className,String methodName, Span span,Logger log){
+    void logEndTrace(String className, String methodName, Span span, Logger log){
         log.trace("[end]{}.{} tc={}", className, methodName, span.getType());
     }
 
