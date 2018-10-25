@@ -21,6 +21,9 @@
         <maven.compiler.target>1.7</maven.compiler.target>
         <file.name>snake-agent</file.name>
         <premain.class>com.learn.snake.agent.Agent</premain.class>
+        <!--<shade.package>com.learn.snake.agent.deps</shade.package>
+        <shade.net.bytebuddy.source>net.bytebuddy</shade.net.bytebuddy.source>
+        <shade.net.bytebuddy.target>${shade.package}.${shade.net.bytebuddy.source}</shade.net.bytebuddy.target>-->
     </properties>
 
     <dependencies>
@@ -69,7 +72,7 @@
                                     <exclude>log4j:*</exclude>
                                 </excludes>
                             </artifactSet>
-                            <!--<relocations>
+                           <!-- <relocations>
                                 <relocation>
                                     <pattern>${shade.net.bytebuddy.source}</pattern>
                                     <shadedPattern>${shade.net.bytebuddy.target}</shadedPattern>

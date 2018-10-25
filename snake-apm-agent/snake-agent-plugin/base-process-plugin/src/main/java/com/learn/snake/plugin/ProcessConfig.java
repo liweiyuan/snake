@@ -20,10 +20,10 @@ public class ProcessConfig {
     private  Boolean enableParam;
 
     //排除的参数类型
-    private Set<String> excludeParameTypes = new HashSet<>();
+    private Set<String> excludeParameTypes = new HashSet<String>();
 
     //排除的参数前缀类型
-    private  Set<String> excludeParamsPrefixTypes = new HashSet<>();
+    private  Set<String> excludeParamsPrefixTypes = new HashSet<String>();
 
     //错误采集开关
     private Boolean enableError;

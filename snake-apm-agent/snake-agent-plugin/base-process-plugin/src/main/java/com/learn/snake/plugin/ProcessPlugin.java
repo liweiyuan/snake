@@ -5,6 +5,7 @@ import com.learn.snake.config.ConfigUtils;
 import com.learn.snake.constant.SystemKey;
 import com.learn.snake.plugin.interceptor.ProcessAdvice;
 import net.bytebuddy.description.method.MethodDescription;
+import net.bytebuddy.description.type.TypeDescription;
 import net.bytebuddy.matcher.ElementMatcher;
 import net.bytebuddy.matcher.ElementMatchers;
 
@@ -17,20 +18,20 @@ import java.util.Map;
  * @Description :  主程序拦截类型
  */
 public class ProcessPlugin extends AbstractPlugin {
+
     @Override
     public String getName() {
         return "process";
     }
 
-    @Override
     public InterceptPoint[] buildInterceptPoint() {
-        Object value = ConfigUtils.init().getVal(SystemKey.PLUGIN_INTERCEPTOR_POINTS);
-        List<Map<String, Map<String, Map<String, String>>>> list = (List<Map<String, Map<String, Map<String, String>>>>) value;
+        List<Map<String, Map<String, Map<String, String>>>> list =
+                (List<Map<String, Map<String, Map<String, String>>>>) ConfigUtils.init().getVal(SystemKey.PLUGIN_INTERCEPTOR_POINTS);
         if (list == null || list.isEmpty()) {
             return new InterceptPoint[]{
                     new InterceptPoint() {
                         @Override
-                        public ElementMatcher.Junction buildTypesMatcher() {
+                        public ElementMatcher<TypeDescription> buildTypesMatcher() {
                             return MatchKit.buildTypesMatcher(null, null)
                                     .and(ElementMatchers.not(ElementMatchers.hasSuperType(ElementMatchers.named("javax.servlet.http.HttpServlet"))));
                         }
@@ -48,13 +49,11 @@ public class ProcessPlugin extends AbstractPlugin {
             if (item == null || item.isEmpty()) {
                 continue;
             }
-            //获取配置文件中的typeMatch与methodMatch
-            final Map<String, Map<String, String>> typeMatch = item.get(SystemKey.PLUGIN_TYPE_MATCH);
-            final Map<String, Map<String, String>> methodMatch = item.get(SystemKey.PLUGIN_METHOD_MATCH);
-
+            final Map<String, Map<String, String>> typeMatch = item.get("typeMatch");
+            final Map<String, Map<String, String>> methodMatch = item.get("methodMatch");
             points[i] = new InterceptPoint() {
                 @Override
-                public ElementMatcher.Junction buildTypesMatcher() {
+                public ElementMatcher<TypeDescription> buildTypesMatcher() {
                     if (typeMatch == null) {
                         return MatchKit.buildTypesMatcher(null, null)
                                 .and(ElementMatchers.not(ElementMatchers.hasSuperType(ElementMatchers.named("javax.servlet.http.HttpServlet"))));
@@ -77,6 +76,6 @@ public class ProcessPlugin extends AbstractPlugin {
 
     @Override
     public Class interceptorAdviceClass() {
-       return ProcessAdvice.class;
+        return ProcessAdvice.class;
     }
 }

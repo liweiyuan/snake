@@ -33,6 +33,7 @@
             <groupId>com.learn</groupId>
             <artifactId>snake-agent-core</artifactId>
             <version>1.0-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 

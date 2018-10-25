@@ -11,11 +11,11 @@ import java.lang.reflect.Type;
  */
 public class FieldDefine {
 
-    private String name;
+    public String name;
 
-    private Type type;
+    public Type type;
 
-    private ModifierContributor.ForField[] modifiers;
+    public ModifierContributor.ForField[] modifiers;
 
 
     /**
