@@ -17,8 +17,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.7</maven.compiler.source>
-        <maven.compiler.target>1.7</maven.compiler.target>
+        <maven.compiler.source>1.6</maven.compiler.source>
+        <maven.compiler.target>1.6</maven.compiler.target>
         <file.name>snake-agent</file.name>
         <premain.class>com.learn.snake.agent.Agent</premain.class>
         <!--<shade.package>com.learn.snake.agent.deps</shade.package>

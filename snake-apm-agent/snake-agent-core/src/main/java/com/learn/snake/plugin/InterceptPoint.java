@@ -14,10 +14,11 @@ public interface InterceptPoint {
     /**
      * 类匹配规则
      */
-    ElementMatcher<TypeDescription> buildTypesMatcher();
+    public ElementMatcher<TypeDescription> buildTypesMatcher();
+
     /**
      * 方法匹配规则
      */
-    ElementMatcher<MethodDescription> buildMethodsMatcher();
+    public ElementMatcher<MethodDescription> buildMethodsMatcher();
 
 }

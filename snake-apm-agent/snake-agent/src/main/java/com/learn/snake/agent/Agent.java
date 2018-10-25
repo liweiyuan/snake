@@ -108,7 +108,7 @@ public class Agent {
             }
         };
         agentBuilder.with(listener).installOn(instrumentation);
-        //agentBuilder.with(listener).with(AgentBuilder.Listener.StreamWriting.toSystemError()).installOn(inst);
+        //agentBuilder.with(listener).with(AgentBuilder.Listener.StreamWriting.toSystemError()).installOn(instrumentation);
     }
 
 }

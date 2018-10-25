@@ -28,20 +28,8 @@ public class ProcessPlugin extends AbstractPlugin {
         List<Map<String, Map<String, Map<String, String>>>> list =
                 (List<Map<String, Map<String, Map<String, String>>>>) ConfigUtils.init().getVal(SystemKey.PLUGIN_INTERCEPTOR_POINTS);
         if (list == null || list.isEmpty()) {
-            return new InterceptPoint[]{
-                    new InterceptPoint() {
-                        @Override
-                        public ElementMatcher<TypeDescription> buildTypesMatcher() {
-                            return MatchKit.buildTypesMatcher(null, null)
-                                    .and(ElementMatchers.not(ElementMatchers.hasSuperType(ElementMatchers.named("javax.servlet.http.HttpServlet"))));
-                        }
-
-                        @Override
-                        public ElementMatcher<MethodDescription> buildMethodsMatcher() {
-                            return MatchKit.buildMethodsMatcher(null, null);
-                        }
-                    }
-            };
+            DefaultInterceptPoint defaultInterceptPoint = new DefaultInterceptPoint();
+            return new InterceptPoint[]{defaultInterceptPoint};
         }
         InterceptPoint[] points = new InterceptPoint[list.size()];
         for (int i = 0; i < list.size(); i++) {
@@ -51,25 +39,8 @@ public class ProcessPlugin extends AbstractPlugin {
             }
             final Map<String, Map<String, String>> typeMatch = item.get("typeMatch");
             final Map<String, Map<String, String>> methodMatch = item.get("methodMatch");
-            points[i] = new InterceptPoint() {
-                @Override
-                public ElementMatcher<TypeDescription> buildTypesMatcher() {
-                    if (typeMatch == null) {
-                        return MatchKit.buildTypesMatcher(null, null)
-                                .and(ElementMatchers.not(ElementMatchers.hasSuperType(ElementMatchers.named("javax.servlet.http.HttpServlet"))));
-                    }
-                    return MatchKit.buildTypesMatcher(typeMatch.get("include"), typeMatch.get("exclude"))
-                            .and(ElementMatchers.not(ElementMatchers.hasSuperType(ElementMatchers.named("javax.servlet.http.HttpServlet"))));
-                }
-
-                @Override
-                public ElementMatcher<MethodDescription> buildMethodsMatcher() {
-                    if (methodMatch == null) {
-                        return MatchKit.buildMethodsMatcher(null, null);
-                    }
-                    return MatchKit.buildMethodsMatcher(methodMatch.get("include"), methodMatch.get("exclude"));
-                }
-            };
+            //构造InterceptorPoint数组
+            points[i] = new CommonInterceptorPoint(typeMatch, methodMatch);
         }
         return points;
     }
@@ -78,4 +49,51 @@ public class ProcessPlugin extends AbstractPlugin {
     public Class interceptorAdviceClass() {
         return ProcessAdvice.class;
     }
+
+
+    private class DefaultInterceptPoint implements InterceptPoint {
+
+
+        @Override
+        public ElementMatcher<TypeDescription> buildTypesMatcher() {
+            return MatchKit.buildTypesMatcher(null, null)
+                    .and(ElementMatchers.not(ElementMatchers.hasSuperType(ElementMatchers.named("javax.servlet.http.HttpServlet"))));
+        }
+
+        @Override
+        public ElementMatcher<MethodDescription> buildMethodsMatcher() {
+            return MatchKit.buildMethodsMatcher(null, null);
+        }
+    }
+
+
+    private class CommonInterceptorPoint implements InterceptPoint {
+
+        private Map<String, Map<String, String>> typeMatch;
+        private Map<String, Map<String, String>> methodMatch;
+
+        CommonInterceptorPoint(Map<String, Map<String, String>> typeMatch, Map<String, Map<String, String>> methodMatch) {
+            this.typeMatch = typeMatch;
+            this.methodMatch = methodMatch;
+        }
+
+        @Override
+        public ElementMatcher<TypeDescription> buildTypesMatcher() {
+            if (typeMatch == null) {
+                return MatchKit.buildTypesMatcher(null, null)
+                        .and(ElementMatchers.not(ElementMatchers.hasSuperType(ElementMatchers.named("javax.servlet.http.HttpServlet"))));
+            }
+            return MatchKit.buildTypesMatcher(typeMatch.get("include"), typeMatch.get("exclude"))
+                    .and(ElementMatchers.not(ElementMatchers.hasSuperType(ElementMatchers.named("javax.servlet.http.HttpServlet"))));
+        }
+
+        @Override
+        public ElementMatcher<MethodDescription> buildMethodsMatcher() {
+            if (methodMatch == null) {
+                return MatchKit.buildMethodsMatcher(null, null);
+            }
+            return MatchKit.buildMethodsMatcher(methodMatch.get("include"), methodMatch.get("exclude"));
+        }
+    }
 }
+
