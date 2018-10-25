@@ -27,9 +27,9 @@
 
         <agent.package.dir>${project.build.directory}/../../../../packages</agent.package.dir>
         <plugin.dir>${agent.package.dir}/plugins</plugin.dir>
-        <shade.package>com.learn.agent</shade.package>
+        <!--<shade.package>com.learn.agent</shade.package>
         <shade.net.bytebuddy.source>net.bytebuddy</shade.net.bytebuddy.source>
-        <shade.net.bytebuddy.target>${shade.package}.${shade.net.bytebuddy.source}</shade.net.bytebuddy.target>
+        <shade.net.bytebuddy.target>${shade.package}.${shade.net.bytebuddy.source}</shade.net.bytebuddy.target>-->
     </properties>
 
     <dependencies>
@@ -59,7 +59,7 @@
                             <createDependencyReducedPom>true</createDependencyReducedPom>
                             <createSourcesJar>true</createSourcesJar>
                             <shadeSourcesContent>true</shadeSourcesContent>
-                            <relocations>
+                            <!--<relocations>
                                 <relocation>
                                     <pattern>${shade.net.bytebuddy.source}</pattern>
                                     <shadedPattern>${shade.net.bytebuddy.target}</shadedPattern>
@@ -72,7 +72,7 @@
                                     <pattern>org.apache.commons.lang3</pattern>
                                     <shadedPattern>${shade.package}.org.apache.commons.lang3</shadedPattern>
                                 </relocation>
-                            </relocations>
+                            </relocations>-->
                         </configuration>
                     </execution>
                 </executions>
@@ -88,12 +88,15 @@
                         </goals>
                         <configuration>
                             <tasks>
-                                <taskdef resource="net/sf/antcontrib/antcontrib.properties" classpathref="maven.runtime.classpath" />
+                                <taskdef resource="net/sf/antcontrib/antcontrib.properties"
+                                         classpathref="maven.runtime.classpath"/>
                                 <if>
-                                    <equals arg1="${project.packaging}" arg2="jar" />
+                                    <equals arg1="${project.packaging}" arg2="jar"/>
                                     <then>
-                                        <mkdir dir="${plugin.dir}" />
-                                        <copy file="${project.build.directory}/${project.artifactId}.jar" tofile="${plugin.dir}/snake-${project.artifactId}-${project.version}.jar" overwrite="true" />
+                                        <mkdir dir="${plugin.dir}"/>
+                                        <copy file="${project.build.directory}/${project.artifactId}.jar"
+                                              tofile="${plugin.dir}/snake-${project.artifactId}-${project.version}.jar"
+                                              overwrite="true"/>
                                     </then>
                                 </if>
                             </tasks>

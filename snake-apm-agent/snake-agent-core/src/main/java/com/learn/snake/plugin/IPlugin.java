@@ -11,12 +11,14 @@ public interface IPlugin {
 
     /**
      * 类与方法匹配规则
+     *
      * @return
      */
     InterceptPoint[] buildInterceptPoint();
 
     /**
      * 拦截器类名称
+     *
      * @return
      */
     Class interceptorAdviceClass();
