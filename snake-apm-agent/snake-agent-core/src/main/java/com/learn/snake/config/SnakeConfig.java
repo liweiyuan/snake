@@ -71,4 +71,15 @@ public class SnakeConfig extends AbstractSnakeConfig {
     }
 
 
+    public int getRatio() {
+        return ratio;
+    }
+
+    public void setRatio(int ratio) {
+        this.ratio = ratio;
+    }
+
+    public void setCluster(String cluster) {
+        this.cluster = cluster;
+    }
 }

@@ -6,7 +6,9 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="base-process-plugin" />
         <module name="okhttp-transmitter" />
+        <module name="servlet-plugin" />
         <module name="snake-agent" />
         <module name="snake-agent-core" />
         <module name="spring-boot-snake" />

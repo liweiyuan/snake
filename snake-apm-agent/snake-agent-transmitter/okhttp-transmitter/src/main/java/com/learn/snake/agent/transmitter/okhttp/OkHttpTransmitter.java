@@ -23,6 +23,8 @@ public class OkHttpTransmitter extends AbstractTransmitter {
     @Override
     public int transmit(List<Span> list) {
         OkHttpHelper.getInstance().post(JSON.toJSONString(list));
+        //return list.size();
+        System.err.println(list.toString());
         return list.size();
     }
 

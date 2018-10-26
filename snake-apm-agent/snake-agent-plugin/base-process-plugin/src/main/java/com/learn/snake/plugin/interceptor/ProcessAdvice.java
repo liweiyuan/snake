@@ -18,11 +18,11 @@ public class ProcessAdvice {
     @Advice.OnMethodEnter
     public static void enter(@Advice.Local("handler") IHandler handler,
                              @Advice.Origin("#t") String className,
-                             @Advice.Origin("#m") String methName,
+                             @Advice.Origin("#m") String methodName,
                              @Advice.AllArguments Object[] arguments) {
         //构建handler
         handler = HandlerLoader.loadHandler(PROCESS_HANDLER);
-        handler.before(className, methName, arguments, null);
+        handler.before(className, methodName, arguments, null);
     }
 
     /**
@@ -31,9 +31,9 @@ public class ProcessAdvice {
     @Advice.OnMethodExit(onThrowable = Throwable.class)
     public static void exit(@Advice.Local("handler") IHandler handler,
                             @Advice.Origin("#t") String className,
-                            @Advice.Origin("#m") String methName,
+                            @Advice.Origin("#m") String methodName,
                             @Advice.AllArguments Object[] arguments,
-                            @Advice.Thrown Throwable throwable){
-        handler.after(className,methName,arguments,null,throwable,null);
+                            @Advice.Thrown Throwable throwable) {
+        handler.after(className, methodName, arguments, null, throwable, null);
     }
 }

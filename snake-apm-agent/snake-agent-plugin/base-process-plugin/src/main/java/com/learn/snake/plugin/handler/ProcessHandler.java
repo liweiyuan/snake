@@ -1,5 +1,6 @@
 package com.learn.snake.plugin.handler;
 
+import com.learn.snake.common.CollectRatio;
 import com.learn.snake.common.SpanManager;
 import com.learn.snake.model.Span;
 import com.learn.snake.model.SpanType;
@@ -7,6 +8,8 @@ import com.learn.snake.plugin.ProcessConfig;
 import com.learn.snake.transmit.TransmitterFactory;
 import com.learn.snake.util.LoggerBuilder;
 import org.slf4j.Logger;
+
+import java.lang.ref.SoftReference;
 
 /**
  * @Author :lwy
@@ -19,7 +22,7 @@ import org.slf4j.Logger;
  */
 public class ProcessHandler extends AbstractHandler {
 
-    private static final Logger logger=LoggerBuilder.getLogger(ProcessHandler.class);
+    private static final Logger logger = LoggerBuilder.getLogger(ProcessHandler.class);
 
     private static final String KEY_ERROR_THROWABLE = "_ERROR_THROWABLE";
     private static final String KEY_BEE_CHILD_ID = "_BEE_CHILD_ID";
@@ -28,23 +31,23 @@ public class ProcessHandler extends AbstractHandler {
     @Override
     public Span before(String className, String methodName, Object[] allArguments, Object[] extVal) {
 
-        if(!ProcessConfig.init().isEnable()){
+        if (!ProcessConfig.init().isEnable()) {
             return null;
         }
 
         //Span的构造
-        Span span =SpanManager.createEntrySpan(SpanType.PROCESS);
+        Span span = SpanManager.createEntrySpan(SpanType.PROCESS);
         //方法开始前执行逻辑
-        logBeginTrace(className,methodName,span,logger);
-        span.addTag("method",methodName).addTag("clazz",className);
+        logBeginTrace(className, methodName, span, logger);
+        span.addTag("method", methodName).addTag("clazz", className);
         return span;
     }
 
     @Override
     public Object after(String className, String methodName, Object[] allArguments, Object result, Throwable t, Object[] extVal) {
 
-        Span span=SpanManager.getExitSpan();
-        if(span==null){
+        Span span = SpanManager.getExitSpan();
+        if (span == null) {
             return result;
         }
 
@@ -56,21 +59,53 @@ public class ProcessHandler extends AbstractHandler {
         span.removeTag(KEY_BEE_CHILD_ID);
         span.removeTag(KEY_ERROR_POINT);
 
-        if(!ProcessConfig.init().isEnable()){
+        if (!ProcessConfig.init().isEnable()) {
             return null;
         }
 
         //计算执行时间
         calculateSpend(span);
         //方法执行后记录数据
-        logEndTrace(className,methodName,span,logger);
+        logEndTrace(className, methodName, span, logger);
         //耗时阈值检测 TODO
-        if(span.getSpend()>ProcessConfig.init().getSpend()){
+        if (span.getSpend() > ProcessConfig.init().getSpend() && CollectRatio.yes()) {
             //发送日志传输
             TransmitterFactory.offerQueue(span);
-            //TODO
+            //采集参数
+            collectParams(allArguments, span.getId());
         }
         //异常处理
         return result;
+    }
+
+
+    /**
+     * 收集参数
+     *
+     * @param allArguments
+     * @param spanId
+     */
+    private void collectParams(Object[] allArguments, String spanId) {
+        if (ProcessConfig.init().isEnableParam() && allArguments != null && allArguments.length > 0) {
+
+            Span span = new Span(SpanType.PARAM);
+            span.setId(spanId);
+            span.setTime(null);
+            span.setPort(null);
+            span.setCluster(null);
+            span.setIp(null);
+            span.setServer(null);
+
+            Object[] params = new Object[allArguments.length];
+            for (int i = 0; i < allArguments.length; i++) {
+                if (allArguments[i] != null && ProcessConfig.init().isExcludeParamType(allArguments[i].getClass())) {
+                    params[i] = "--";
+                } else {
+                    params[i] = new SoftReference<>(allArguments[i]);
+                }
+            }
+            span.addTag("param", params);
+            TransmitterFactory.offerQueue(span);
+        }
     }
 }

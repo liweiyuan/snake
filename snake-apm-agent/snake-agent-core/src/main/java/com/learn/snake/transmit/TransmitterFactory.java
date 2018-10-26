@@ -21,18 +21,12 @@ public class TransmitterFactory {
 
     private static Map<String, AbstractTransmitter> transmitterMap;
 
-    //传输方式名称
-    private static String transmitterName;
-
     //当前配置的传输类型
     private static AbstractTransmitter transmitter;
 
 
     //队列
     private static BlockingQueue<Span> queue;
-
-    //定时扫描任务
-    private static ScheduledExecutorService scheduledExecutorService;
 
     private static final String THREAD_NAME_PREFIX = "snake-transmitter-";
 
@@ -46,7 +40,8 @@ public class TransmitterFactory {
     public static void init() {
         logger.info("初始化传输方式");
         if (transmitterMap == null) {
-            transmitterName = ConfigUtils.init().getStr("transmitter.name");
+            //传输方式名称
+            String transmitterName = ConfigUtils.init().getStr("transmitter.name");
             //初始化系统的传输方式
             transmitterMap = TransmitterLoader.loadTransmitters();
             transmitter = transmitterMap.get(transmitterName);
@@ -59,6 +54,7 @@ public class TransmitterFactory {
             initQueueTask();
         }
     }
+
     /**
      * 初始化队列
      */
@@ -73,7 +69,8 @@ public class TransmitterFactory {
     private static void initQueueTask() {
         logger.info("初始化消费队列。");
         int threadNum = ConfigUtils.init().getInt("transmitter.threadNum", Runtime.getRuntime().availableProcessors());
-        scheduledExecutorService = new ScheduledThreadPoolExecutor(threadNum);
+        //定时扫描任务
+        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(threadNum);
         for (int i = 0; i < threadNum; i++) {
             final int index = i;
             scheduledExecutorService.submit((Runnable) () -> {
@@ -94,11 +91,13 @@ public class TransmitterFactory {
                 Thread.sleep(idleSleep);
                 return;
             }
-            List<Span> spanList = new ArrayList<>();
-            queue.drainTo(spanList,batchSize);
+            //注意有bug
+            List<Span> spanList = new ArrayList<>(batchSize);
+            queue.drainTo(spanList, batchSize);
             transmitter.transmit(spanList);
+            // System.err.println(queue.take());
         } catch (InterruptedException e) {
-           logger.error("传输线程被中断",e);
+            logger.error("传输线程被中断", e);
         }
     }
 
@@ -106,7 +105,7 @@ public class TransmitterFactory {
      * 往队列中添加数据
      * 如果blockingQueue可以容纳该元素，返回true,反之返回false
      */
-    public static boolean offerQueue(Span span){
+    public static boolean offerQueue(Span span) {
         return queue.offer(span);
     }
 }

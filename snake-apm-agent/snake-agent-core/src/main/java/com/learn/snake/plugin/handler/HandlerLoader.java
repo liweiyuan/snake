@@ -60,20 +60,25 @@ public class HandlerLoader {
                 iHandler = (IHandler) Class.forName(className, true, classLoader).newInstance();
             } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
                 logger.error("创建一个handler失败", e);
+                //抛出异常则返回默认的空handler处理逻辑
+                return new EmptyHandler();
             } finally {
                 HANDLER_LOCK.unlock();
             }
             if (iHandler != null) {
                 handlerMap.put(handlerKey, iHandler);
-                return iHandler;
-            }
+            }//修复默认的handler相关bug
+            return iHandler;
 
+        } else {
+            return iHandler;
         }
-        return new EmptyHandler();
+
     }
 
     /**
      * 创建一个class
+     *
      * @param className
      * @return
      */

@@ -15,7 +15,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @Date : 2018/10/23 16:30
  * @Description :
  */
-class OkHttpHelper {
+public class OkHttpHelper {
     private static OkHttpHelper instance;
     private static OkHttpClient client;
     private static final String keyPrefix = "transmitter.okhttp.";
@@ -24,35 +24,35 @@ class OkHttpHelper {
     private static AtomicInteger counter = new AtomicInteger(0);
 
     private OkHttpHelper() {
-        int connectTimeout = ConfigUtils.init().getInt(keyPrefix+"connectTimeout",20);
-        int writeTimeout = ConfigUtils.init().getInt(keyPrefix+"writeTimeout",10);
-        int readTimeout = ConfigUtils.init().getInt(keyPrefix+"readTimeout",10);
+        int connectTimeout = ConfigUtils.init().getInt(keyPrefix + "connectTimeout", 20);
+        int writeTimeout = ConfigUtils.init().getInt(keyPrefix + "writeTimeout", 10);
+        int readTimeout = ConfigUtils.init().getInt(keyPrefix + "readTimeout", 10);
         client = new OkHttpClient
                 .Builder()
                 .connectTimeout(connectTimeout, TimeUnit.SECONDS)
                 .writeTimeout(writeTimeout, TimeUnit.SECONDS)
                 .readTimeout(readTimeout, TimeUnit.SECONDS)
                 .build();
-        urlList = ConfigUtils.init().getList(keyPrefix+"url");
+        urlList = ConfigUtils.init().getList(keyPrefix + "url");
 
     }
 
-    public static OkHttpHelper getInstance(){
-        if(null == instance){
+    public static OkHttpHelper getInstance() {
+        if (null == instance) {
             instance = new OkHttpHelper();
         }
         return instance;
     }
 
-    public  String parseContentType(Map<String,String> header){
-        if(header == null || header.isEmpty()){
+    public String parseContentType(Map<String, String> header) {
+        if (header == null || header.isEmpty()) {
             return "application/json; charset=utf-8";
         }
-        if(header.containsKey("Content-Type")){
+        if (header.containsKey("Content-Type")) {
             return header.get("Content-Type");
-        }else if(header.containsKey("content-type")){
+        } else if (header.containsKey("content-type")) {
             return header.get("content-type");
-        }else if(header.containsKey("contentType")){
+        } else if (header.containsKey("contentType")) {
             return header.get("contentType");
         }
         return "application/json; charset=utf-8";
@@ -60,6 +60,7 @@ class OkHttpHelper {
 
     /**
      * 默认json请求，其它类型请在header里添加Content-Type
+     *
      * @param uri
      * @param parameters
      * @param header
@@ -68,9 +69,9 @@ class OkHttpHelper {
      * @param charset
      * @return
      */
-    public String post(String uri, Map<String,String> parameters, Map<String,String> header, String content, Integer timeout, String charset){
+    public String post(String uri, Map<String, String> parameters, Map<String, String> header, String content, Integer timeout, String charset) {
         try {
-            if(content == null){
+            if (content == null) {
                 content = "";
             }
             OkHttpClient myClient = client;
@@ -80,15 +81,15 @@ class OkHttpHelper {
             uri = parseUrlParams(uri, parameters, charset);
 
             Request.Builder builder = new Request.Builder().post(body).url(uri);
-            if(header != null && !header.isEmpty()){
+            if (header != null && !header.isEmpty()) {
                 for (Map.Entry<String, String> entry : header.entrySet()) {
-                    if(StringUtils.isNotBlank(entry.getKey()) && StringUtils.isNotBlank(entry.getValue())) {
+                    if (StringUtils.isNotBlank(entry.getKey()) && StringUtils.isNotBlank(entry.getValue())) {
                         builder.addHeader(entry.getKey(), entry.getValue());
                     }
                 }
             }
-            if(timeout != null && timeout > 0 && timeout != myClient.readTimeoutMillis() / 1000){
-                myClient = myClient.newBuilder().readTimeout(timeout,TimeUnit.SECONDS).build();
+            if (timeout != null && timeout > 0 && timeout != myClient.readTimeoutMillis() / 1000) {
+                myClient = myClient.newBuilder().readTimeout(timeout, TimeUnit.SECONDS).build();
             }
 
             Response response = myClient.newCall(builder.build()).execute();
@@ -97,32 +98,32 @@ class OkHttpHelper {
             } else {
                 throw new RuntimeException("Unexpected code " + response);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    public  String parseUrlParams(String uri,Map<String,String> parameters,String charset) throws  Exception{
-        if(null!=parameters&&!parameters.isEmpty()){
+    public String parseUrlParams(String uri, Map<String, String> parameters, String charset) throws Exception {
+        if (null != parameters && !parameters.isEmpty()) {
             String split = "?";
-            if(uri.contains("?")){
+            if (uri.contains("?")) {
                 split = "&";
             }
-            for(Map.Entry<String,String> entry:parameters.entrySet()){
-                uri+=(split + URLEncoder.encode(entry.getKey(),charset)+"="+URLEncoder.encode(entry.getValue(),charset));
+            for (Map.Entry<String, String> entry : parameters.entrySet()) {
+                uri += (split + URLEncoder.encode(entry.getKey(), charset) + "=" + URLEncoder.encode(entry.getValue(), charset));
                 split = "&";
             }
         }
         return uri;
     }
 
-    public String getUrl(){
+    public String getUrl() {
         int i = counter.incrementAndGet() % urlList.size();
         return urlList.get(i);
     }
 
-    public String post(String body){
-        return post(getUrl(),null,null,body,null,null);
+    public String post(String body) {
+        return post(getUrl(), null, null, body, null, null);
     }
 
 }
