@@ -11,6 +11,8 @@ import java.util.List;
  */
 public abstract class AbstractTransmitter {
 
+    //TODO 增加一个队列，通过队列来获取信息。
+
     public String name;
 
     public abstract int transmit(Span span);

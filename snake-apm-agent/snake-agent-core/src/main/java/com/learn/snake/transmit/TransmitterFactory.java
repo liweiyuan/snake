@@ -24,6 +24,8 @@ public class TransmitterFactory {
     //当前配置的传输类型
     private static AbstractTransmitter transmitter;
 
+    private static String transmitterName;
+
 
     //队列
     private static BlockingQueue<Span> queue;
@@ -41,7 +43,7 @@ public class TransmitterFactory {
         logger.info("初始化传输方式");
         if (transmitterMap == null) {
             //传输方式名称
-            String transmitterName = ConfigUtils.init().getStr("transmitter.name");
+            transmitterName = ConfigUtils.init().getStr("transmitter.name");
             //初始化系统的传输方式
             transmitterMap = TransmitterLoader.loadTransmitters();
             transmitter = transmitterMap.get(transmitterName);
@@ -71,15 +73,12 @@ public class TransmitterFactory {
         int threadNum = ConfigUtils.init().getInt("transmitter.threadNum", Runtime.getRuntime().availableProcessors());
         //定时扫描任务
         ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(threadNum);
-        for (int i = 0; i < threadNum; i++) {
-            final int index = i;
-            scheduledExecutorService.submit((Runnable) () -> {
-                Thread.currentThread().setName(THREAD_NAME_PREFIX + index);
-                while (true) {
-                    doTransmit();
-                }
-            });
-        }
+        scheduledExecutorService.submit((Runnable) () -> {
+            Thread.currentThread().setName(THREAD_NAME_PREFIX + transmitterName);
+            while (true) {
+                doTransmit();
+            }
+        });
     }
 
     /**
@@ -95,7 +94,6 @@ public class TransmitterFactory {
             List<Span> spanList = new ArrayList<>(batchSize);
             queue.drainTo(spanList, batchSize);
             transmitter.transmit(spanList);
-            // System.err.println(queue.take());
         } catch (InterruptedException e) {
             logger.error("传输线程被中断", e);
         }

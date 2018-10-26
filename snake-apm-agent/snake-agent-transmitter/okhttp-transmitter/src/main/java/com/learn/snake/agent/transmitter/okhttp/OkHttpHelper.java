@@ -1,8 +1,10 @@
 package com.learn.snake.agent.transmitter.okhttp;
 
 import com.learn.snake.config.ConfigUtils;
+import com.learn.snake.util.LoggerBuilder;
 import okhttp3.*;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
 
 import java.net.URLEncoder;
 import java.util.List;
@@ -14,8 +16,14 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @Author :lwy
  * @Date : 2018/10/23 16:30
  * @Description :
+ * <p>
+ * TODO 修改为异步的服务，消费队列的形式
+ * 思路时通过BlockingQueue存储记录，消费用线程池消费
  */
 public class OkHttpHelper {
+
+    private static final Logger logger = LoggerBuilder.getLogger(OkHttpHelper.class);
+
     private static OkHttpHelper instance;
     private static OkHttpClient client;
     private static final String keyPrefix = "transmitter.okhttp.";
@@ -37,14 +45,18 @@ public class OkHttpHelper {
 
     }
 
-    public static OkHttpHelper getInstance() {
+    static OkHttpHelper getInstance() {
         if (null == instance) {
-            instance = new OkHttpHelper();
+            synchronized (OkHttpHelper.class) {
+                if (instance == null) {
+                    instance = new OkHttpHelper();
+                }
+            }
         }
         return instance;
     }
 
-    public String parseContentType(Map<String, String> header) {
+    private String parseContentType(Map<String, String> header) {
         if (header == null || header.isEmpty()) {
             return "application/json; charset=utf-8";
         }
@@ -69,7 +81,7 @@ public class OkHttpHelper {
      * @param charset
      * @return
      */
-    public String post(String uri, Map<String, String> parameters, Map<String, String> header, String content, Integer timeout, String charset) {
+    private void post(String uri, Map<String, String> parameters, Map<String, String> header, String content, Integer timeout, String charset) {
         try {
             if (content == null) {
                 content = "";
@@ -94,16 +106,17 @@ public class OkHttpHelper {
 
             Response response = myClient.newCall(builder.build()).execute();
             if (response.isSuccessful()) {
-                return response.body().string();
+                //return response.body().string();
+                logger.info("okhttp上报数据成功");
             } else {
                 throw new RuntimeException("Unexpected code " + response);
             }
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            logger.error("okhttp上报数据失败。。。。", e);
         }
     }
 
-    public String parseUrlParams(String uri, Map<String, String> parameters, String charset) throws Exception {
+    private String parseUrlParams(String uri, Map<String, String> parameters, String charset) throws Exception {
         if (null != parameters && !parameters.isEmpty()) {
             String split = "?";
             if (uri.contains("?")) {
@@ -117,13 +130,13 @@ public class OkHttpHelper {
         return uri;
     }
 
-    public String getUrl() {
+    private String getUrl() {
         int i = counter.incrementAndGet() % urlList.size();
         return urlList.get(i);
     }
 
-    public String post(String body) {
-        return post(getUrl(), null, null, body, null, null);
+    void post(String body) {
+        post(getUrl(), null, null, body, null, null);
     }
 
 }
