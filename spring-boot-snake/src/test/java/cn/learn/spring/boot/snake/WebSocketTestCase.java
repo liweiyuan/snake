@@ -1,4 +1,4 @@
-package com.learn.spring.boot.snake;
+package cn.learn.spring.boot.snake;
 
 import org.java_websocket.WebSocket;
 import org.java_websocket.client.WebSocketClient;

@@ -14,8 +14,8 @@ transmitter:
         writeTimeout: 10
         readTimeout: 10
         url:
-            - http://127.0.0.1:7000/stream
-            - http://127.0.0.1:7000/stream
+            - http://127.0.0.1:9000/stream
+            - http://127.0.0.1:9000/stream
 collect:
     ratio: 10000 #采样率，万分几，默认全采集
 id:
@@ -60,7 +60,7 @@ plugins:
             -
                 typeMatch:
                     include: #named,nameStartsWith,nameEndsWith,nameContains,nameMatches,hasSuperType,hasAnnotation
-                        nameStartsWith: net.beeapm.demo
+                        nameStartsWith: cn.learn.spring
                     exclude: #named,nameStartsWith,nameEndsWith,nameContains,nameMatches,hasSuperType,hasAnnotation
                         nameStartsWith:
                 methodMatch: #named,nameStartsWith,nameEndsWith,nameContains,nameMatches,isAnnotatedWith

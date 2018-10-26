@@ -41,7 +41,8 @@ public class Agent {
         List<AbstractPlugin> plugins = PluginLoader.loadPlugins();
 
         //5.初始化Agent
-        AgentBuilder agentBuilder = new AgentBuilder.Default().ignore(ElementMatchers.nameStartsWith("com.learn.snake."));
+        AgentBuilder agentBuilder = new AgentBuilder.Default().ignore(ElementMatchers.nameStartsWith("com.learn.snake.agent."));
+        //AgentBuilder agentBuilder = new AgentBuilder.Default();                                            com.learn.snake.agent.deps
 
 
         for (int i = 0; i < plugins.size(); i++) {

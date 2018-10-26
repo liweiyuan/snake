@@ -1,4 +1,4 @@
-package com.learn.spring.boot.snake.test;
+package cn.learn.spring.boot.snake.test;
 
 /**
  * @Author :lwy
@@ -13,7 +13,7 @@ public class TestAgent {
         String result = a.say();
         System.out.println(result);
 
-        Thread.sleep(1000 * 20000);
+        Thread.sleep(1000 * 20);
         System.exit(0);
     }
 

@@ -1,4 +1,4 @@
-package com.learn.spring.boot.snake.config;
+package cn.learn.spring.boot.snake.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -8,12 +8,12 @@ import org.slf4j.Logger;
  * @Date : 2018/10/24 16:11
  * @Description :
  */
-abstract class AbstractHandler implements IHandler {
+public abstract class AbstractHandler implements IHandler {
 
-    void logBeginTrace(String className, String methodName, Span span, Logger log){
+    public void logBeginTrace(String className, String methodName, Span span, Logger log){
         log.trace("[begin]{}.{} tc={}", className, methodName, span.getType());
     }
-    void logEndTrace(String className, String methodName, Span span, Logger log){
+    public void logEndTrace(String className, String methodName, Span span, Logger log){
         log.trace("[end]{}.{} tc={}", className, methodName, span.getType());
     }
 

@@ -1,4 +1,4 @@
-package com.learn.spring.boot.snake.controller;
+package cn.learn.spring.boot.snake.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;

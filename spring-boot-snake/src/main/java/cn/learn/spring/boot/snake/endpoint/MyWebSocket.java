@@ -1,4 +1,4 @@
-package com.learn.spring.boot.snake.endpoint;
+package cn.learn.spring.boot.snake.endpoint;
 
 import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.timeout.IdleStateEvent;

@@ -23,7 +23,7 @@ public class SnakeConfig extends AbstractSnakeConfig {
     public static SnakeConfig init() {
 
         if (config == null) {
-            synchronized (SnakeConfig.config) {
+            synchronized (SnakeConfig.class) {
                 if (config == null) {
                     config = new SnakeConfig();
                     //注册config到系统资源

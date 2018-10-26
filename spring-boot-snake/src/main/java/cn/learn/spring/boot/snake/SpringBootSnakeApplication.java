@@ -1,4 +1,4 @@
-package com.learn.spring.boot.snake;
+package cn.learn.spring.boot.snake;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
