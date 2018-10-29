@@ -42,7 +42,7 @@ public class SnakeTraceContext {
         localGId.set(gid);
     }
 
-    static String getCTag(){
+    public static String getCTag(){
         return localCTag.get();
     }
 
