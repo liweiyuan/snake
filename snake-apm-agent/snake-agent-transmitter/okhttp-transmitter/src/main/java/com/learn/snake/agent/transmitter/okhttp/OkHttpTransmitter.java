@@ -20,6 +20,11 @@ public class OkHttpTransmitter extends AbstractTransmitter implements Runnable {
 
     public String name = "okhttp";
 
+    private static final String OKHTTP_REPORT_THREAD = "okhttp-report-thread";
+
+    //构建单例的线程
+    private static Thread thread;
+
     @Override
     public int transmit(Span span) {
         OkHttpHelper.getInstance().post(JSON.toJSONString(span));
@@ -35,9 +40,17 @@ public class OkHttpTransmitter extends AbstractTransmitter implements Runnable {
             logger.error("放入到队列失败。", e);
         }
 
-        //初始化线程
-        Thread thread = new Thread(new OkHttpTransmitter());
-        thread.start();
+        if (thread == null) {
+            synchronized (OkHttpTransmitter.class) {
+                if (thread == null) {
+                    //初始化线程
+                    thread = new Thread(new OkHttpTransmitter());
+                    thread.setName(OKHTTP_REPORT_THREAD);
+                    thread.start();
+                }
+            }
+        }
+
         return list.size();
     }
 
@@ -60,7 +73,7 @@ public class OkHttpTransmitter extends AbstractTransmitter implements Runnable {
                 logger.error("从队列中获取元素失败", e);
             }
             //调用传输
-            OkHttpHelper.getInstance().post(JSON.toJSONString(spanList,SerializerFeature.IgnoreErrorGetter));
+            OkHttpHelper.getInstance().post(JSON.toJSONString(spanList, SerializerFeature.IgnoreErrorGetter));
             //清空
             assert spanList != null;
             spanList.clear();
