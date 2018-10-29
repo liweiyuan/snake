@@ -106,7 +106,6 @@ public class OkHttpHelper {
 
             Response response = myClient.newCall(builder.build()).execute();
             if (response.isSuccessful()) {
-                //return response.body().string();
                 logger.info("okhttp上报数据成功");
             } else {
                 throw new RuntimeException("Unexpected code " + response);
@@ -131,6 +130,7 @@ public class OkHttpHelper {
     }
 
     private String getUrl() {
+        //采用轮询策略
         int i = counter.incrementAndGet() % urlList.size();
         return urlList.get(i);
     }

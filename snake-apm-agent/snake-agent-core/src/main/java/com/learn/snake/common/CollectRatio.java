@@ -15,7 +15,7 @@ public class CollectRatio {
     private static AtomicLong currNum = new AtomicLong(0);
 
 
-    public static long incrTotal() {
+    private static long incrTotal() {
         return total.incrementAndGet();
     }
 
@@ -23,11 +23,11 @@ public class CollectRatio {
         return total.get();
     }
 
-    public static long incrCurrNum() {
+    private static long incrCurrNum() {
         return currNum.incrementAndGet();
     }
 
-    public static long getCurrNum() {
+    private static long getCurrNum() {
         return currNum.get();
     }
 
@@ -49,6 +49,7 @@ public class CollectRatio {
             SnakeTraceContext.setCTag("Y");
             return true;
         }
+        //采样率的判断
         String cTag = SnakeTraceContext.getCTag();
         if ("Y".equals(cTag)) {
             return true;

@@ -27,6 +27,7 @@ public class SnakeUtils {
         try{
             return InetAddress.getLocalHost().getHostAddress();
         }catch (Exception e){
+            logger.error("获取ip失败. ", e);
         }
         return null;
     }

@@ -1,5 +1,7 @@
 package cn.learn.spring.boot.snake.controller;
 
+import cn.learn.spring.boot.snake.service.StreamService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class StreamController {
 
 
+    @Autowired
+    private StreamService streamService;
+
     @RequestMapping("/stream")
     public void stream(@RequestBody String body) {
         System.err.println(body);
@@ -21,6 +26,6 @@ public class StreamController {
 
     @GetMapping("/hello")
     public String hello() {
-        return "hello";
+        return streamService.sayHello();
     }
 }

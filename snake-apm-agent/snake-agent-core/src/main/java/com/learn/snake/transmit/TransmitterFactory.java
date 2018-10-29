@@ -39,7 +39,7 @@ public class TransmitterFactory {
     /**
      * 初始化系统配置的数据传输方式
      */
-    public static void init() {
+    public synchronized static void init() {
         logger.info("初始化传输方式");
         if (transmitterMap == null) {
             //传输方式名称

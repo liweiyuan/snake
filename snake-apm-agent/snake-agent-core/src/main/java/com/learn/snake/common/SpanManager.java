@@ -45,6 +45,8 @@ public class SpanManager {
             }
         } else {
             Span span = spanStack.peek();
+
+            //同一个线程追踪的依据
             pId = span.getId();
             gId = span.getGid();
             SnakeTraceContext.setPId(pId);

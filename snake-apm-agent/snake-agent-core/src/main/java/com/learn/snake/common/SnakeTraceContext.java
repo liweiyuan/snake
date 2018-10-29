@@ -14,17 +14,17 @@ public class SnakeTraceContext {
     private static final ThreadLocal<String> localCTag = new ThreadLocal<String>();
 
     //清空操作
-    public static void clearAll() {
+    static void clearAll() {
         localGId.remove();
         localPId.remove();
         localCTag.remove();
     }
 
-    public static String getPId() {
+    static String getPId() {
         return localPId.get();
     }
 
-    public static void setPId(String pId) {
+    static void setPId(String pId) {
         localPId.set(pId);
     }
 
@@ -38,15 +38,15 @@ public class SnakeTraceContext {
         return gid;
     }
 
-    public static void setGid(String gid) {
+    static void setGid(String gid) {
         localGId.set(gid);
     }
 
-    public static String getCTag(){
+    static String getCTag(){
         return localCTag.get();
     }
 
-    public static void setCTag(String ctag){
+    static void setCTag(String ctag){
         localCTag.set(ctag);
     }
 
