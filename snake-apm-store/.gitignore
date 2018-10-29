@@ -23,3 +23,9 @@
 /dist/
 /nbdist/
 /.nb-gradle/
+
+### packages ###
+/packages/plugins/
+/packages/transmit/
+/packages/weaving-class/
+/snake-agent.jar
