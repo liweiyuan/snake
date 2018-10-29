@@ -3,6 +3,9 @@ package com.learn.snake.transmit;
 import com.learn.snake.model.Span;
 
 import java.util.List;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * @Author :lwy
@@ -11,7 +14,7 @@ import java.util.List;
  */
 public abstract class AbstractTransmitter {
 
-    //TODO 增加一个队列，通过队列来获取信息。
+    public static BlockingQueue<List<Span>> storeQueue=new LinkedBlockingQueue<>(100);
 
     public String name;
 

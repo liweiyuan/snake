@@ -11,8 +11,17 @@
         <module name="servlet-plugin" />
         <module name="snake-agent" />
         <module name="snake-agent-core" />
+        <module name="snake-apm-spring-boot-console" />
+        <module name="snake-spring-boot-console" />
         <module name="spring-boot-snake" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="snake-apm-common-server-core" target="1.8" />
+      <module name="snake-apm-server" target="1.8" />
+      <module name="snake-apm-spring-boot-console" target="1.8" />
+      <module name="snake-apm-store" target="1.8" />
+      <module name="snakeapmcommonserver" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>
