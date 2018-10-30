@@ -11,11 +11,13 @@ import org.slf4j.Logger;
 public abstract class AbstractHandler implements IHandler {
 
     public void logBeginTrace(String className, String methodName, Span span, Logger log) {
-        log.info("[begin]{}.{} tc={}", className, methodName, span.getType());
+
+        //TODO 如何处理日志
+        log.info("[begin-trace]{}.{} tc={}", className, methodName, span.getType());
     }
 
     public void logEndTrace(String className, String methodName, Span span, Logger log) {
-        log.info("[end]{}.{} tc={}", className, methodName, span.getType());
+        log.info("[end-trace]{}.{} tc={}", className, methodName, span.getType());
     }
 
     /**
