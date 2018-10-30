@@ -45,12 +45,9 @@ public class Agent {
         //AgentBuilder agentBuilder = new AgentBuilder.Default();                                            com.learn.snake.agent.deps
 
 
-        for (int i = 0; i < plugins.size(); i++) {
-            final AbstractPlugin plugin = plugins.get(i);
-
+        for (final AbstractPlugin plugin : plugins) {
             InterceptPoint[] points = plugin.buildInterceptPoint();
-            for (int j = 0; j < points.length; j++) {
-                final InterceptPoint interceptPoint = points[j];
+            for (final InterceptPoint interceptPoint : points) {
                 AgentBuilder.Transformer transformer = new AgentBuilder.Transformer() {
 
                     private final Logger logger = LoggerBuilder.getLogger(AgentBuilder.Transformer.class);
@@ -91,7 +88,9 @@ public class Agent {
 
             @Override
             public void onTransformation(TypeDescription typeDescription, ClassLoader classLoader, JavaModule javaModule, boolean b, DynamicType dynamicType) {
-                WeavingClassLog.INSTANCE.log(typeDescription, dynamicType);
+
+                //TODO 设置为配置项来设置是否打印修改后的字节码文件
+                WeavingClassLog.INSTANCE.saveClassCode(typeDescription, dynamicType);
             }
 
             @Override
@@ -109,6 +108,8 @@ public class Agent {
             }
         };
         agentBuilder.with(listener).installOn(instrumentation);
+
+        //记录字节码生成过程中的异常错误，方便调试
         //agentBuilder.with(listener).with(AgentBuilder.Listener.StreamWriting.toSystemError()).installOn(instrumentation);
     }
 

@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.Enumeration;
 
 /**
  * @Author :lwy
@@ -40,7 +42,15 @@ public class HttpClient3xController {
     }
 
     @GetMapping("/execute")
-    public void execute() {
+    public void execute(HttpServletRequest request) {
+        //获取header
+        Enumeration<String> headerNames = request.getHeaderNames();
+        if(headerNames.hasMoreElements()){
+            String headerKey = headerNames.nextElement();
+            System.out.println(request.getHeader(headerKey));
+        }
+
+        //实现重大突破。通过header来传递数据
         System.err.println("execute");
     }
 
