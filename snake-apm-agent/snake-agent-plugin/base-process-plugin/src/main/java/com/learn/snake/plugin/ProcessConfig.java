@@ -1,6 +1,8 @@
 package com.learn.snake.plugin;
 
+import com.learn.snake.config.AbstractSnakeConfig;
 import com.learn.snake.config.ConfigUtils;
+import com.learn.snake.config.SnakeConfigFactory;
 import com.learn.snake.constant.SystemKey;
 
 import java.util.HashSet;
@@ -12,7 +14,7 @@ import java.util.Set;
  * @Date : 2018/10/24 17:27
  * @Description :
  */
-public class ProcessConfig {
+public class ProcessConfig extends AbstractSnakeConfig {
 
     //采集开关
     private  Boolean enable;
@@ -41,6 +43,8 @@ public class ProcessConfig {
             synchronized (ProcessConfig.class) {
                 if (instance == null) {
                     instance = new ProcessConfig();
+                    //添加到配置信息中
+                    SnakeConfigFactory.init().registerConfig("process",instance);
                 }
             }
         }
@@ -55,7 +59,8 @@ public class ProcessConfig {
     /**
      * 初始化系统参数
      */
-    private void initConfig() {
+    @Override
+    public void initConfig() {
 
         //clear相关缓存
         excludeParameTypes.clear();

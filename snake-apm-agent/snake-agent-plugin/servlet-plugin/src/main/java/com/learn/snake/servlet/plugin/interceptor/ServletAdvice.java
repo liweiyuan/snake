@@ -23,6 +23,11 @@ public class ServletAdvice {
                              @Advice.Argument(value = 1, readOnly = false) HttpServletResponse response) {
         handler = HandlerLoader.loadHandler("com.learn.snake.servlet.plugin.handler.ServletHandler");
         Span span = handler.before(className, methodName, new Object[]{request, response}, null);
+        if (span != null && span.getTags().get("_respWrapper") != null) {
+            //修改resp
+            response = (HttpServletResponse) span.getTags().get("_respWrapper");
+            span.getTags().remove("_respWrapper");
+        }
     }
 
 }
