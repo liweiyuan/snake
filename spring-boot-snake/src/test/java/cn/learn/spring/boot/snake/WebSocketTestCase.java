@@ -1,3 +1,4 @@
+/*
 package cn.learn.spring.boot.snake;
 
 import org.java_websocket.WebSocket;
@@ -10,11 +11,13 @@ import org.slf4j.LoggerFactory;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+*/
 /**
  * @Author :lwy
  * @Date : 2018/10/24 11:18
  * @Description :
- */
+ *//*
+
 public class WebSocketTestCase {
 
 
@@ -63,3 +66,4 @@ public class WebSocketTestCase {
 
     }
 }
+*/

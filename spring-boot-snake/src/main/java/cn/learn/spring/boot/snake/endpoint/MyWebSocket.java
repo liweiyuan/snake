@@ -1,3 +1,4 @@
+/*
 package cn.learn.spring.boot.snake.endpoint;
 
 import io.netty.handler.codec.http.HttpHeaders;
@@ -8,11 +9,13 @@ import org.yeauty.pojo.Session;
 
 import java.io.IOException;
 
+*/
 /**
  * @Author :lwy
  * @Date : 2018/10/24 11:08
  * @Description :
- */
+ *//*
+
 @ServerEndpoint(path = "/ws",port = 7001)
 @Component
 public class MyWebSocket {
@@ -66,3 +69,4 @@ public class MyWebSocket {
         }
     }
 }
+*/

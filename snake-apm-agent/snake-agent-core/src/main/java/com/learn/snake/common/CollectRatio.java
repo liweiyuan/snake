@@ -40,6 +40,15 @@ public class CollectRatio {
         return isCollect();
     }
 
+    /**
+     * 蔡妍率是否关闭
+     * @return
+     */
+    public static boolean no(){
+        return !yes();
+    }
+
+
     private static boolean isCollect() {
 
         if (SnakeConfig.init().getRatio() <= 0) {

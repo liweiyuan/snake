@@ -5,6 +5,7 @@
     <file url="file://$PROJECT_DIR$/snake-apm-agent/snake-agent-core" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/snake-apm-agent/snake-agent-plugin" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/snake-apm-agent/snake-agent-plugin/base-process-plugin" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/snake-apm-agent/snake-agent-plugin/httpclient3.x-plugin" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/snake-apm-agent/snake-agent-plugin/servlet-plugin" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/snake-apm-agent/snake-agent-transmitter" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/snake-apm-agent/snake-agent-transmitter/okhttp-transmitter" charset="UTF-8" />

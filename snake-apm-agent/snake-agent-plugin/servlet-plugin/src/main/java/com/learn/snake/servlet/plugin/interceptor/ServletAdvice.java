@@ -30,4 +30,14 @@ public class ServletAdvice {
         }
     }
 
+    //退出方法
+    @Advice.OnMethodExit(onThrowable = Throwable.class)
+    public static void exit(@Advice.Local("handler") IHandler handler,
+                            @Advice.Origin("#t") String className,
+                            @Advice.Origin("#m") String methodName,
+                            @Advice.AllArguments Object[] arguments,
+                            @Advice.Thrown Throwable throwable) {
+        handler.after(className, methodName, arguments, null, throwable, null);
+    }
+
 }
