@@ -13,4 +13,9 @@ public class LoggerBuilder {
     public static Logger getLogger(Class<?> clzz) {
         return LoggerFactory.getLogger(clzz);
     }
+
+    public static Logger getLogger(String name) {
+        return LoggerFactory.getLogger(name);
+    }
+
 }
