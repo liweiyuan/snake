@@ -26,6 +26,6 @@ public class StreamController {
 
     @GetMapping("/hello")
     public String hello() {
-        return streamService.sayHello();
+        return streamService.sayHello("sayHello");
     }
 }

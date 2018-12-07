@@ -96,3 +96,14 @@ plugins:
 
 
 
+
+### 说明
+# 1.虚拟机参数
+
+# -Dsnake.server=snake    表示当前的服务名称
+# -Dsnake.cluster=snake-1 表示当前的服务节点名称
+# -Dsnake.ip=127.0.0.1    表示当前的服务地址
+# -Dsnake.port=7005       表示当前的服务启动端口
+
+
+

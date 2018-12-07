@@ -12,7 +12,7 @@ public class StreamService {
 
 
 
-    public String sayHello(){
-        return "sayHello";
+    public String sayHello(String result){
+        return result;
     }
 }
