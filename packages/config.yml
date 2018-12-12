@@ -1,6 +1,6 @@
 logger:
     console: true  #日志输出到控制台，默认false
-    level: trace   #日志输出级别，默认error
+    level: info   #日志输出级别，默认error
     fileSize: 10485760 #日志文件大小，单位字节,默认10M
     fileNum: 3     #日志文件保留数量，默认5个文件
 transmitter:
